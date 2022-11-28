@@ -1,6 +1,36 @@
 import path from 'path';
 import fs from 'fs';
 
+export function createCsvFields(objArray) {
+  let str = '';
+
+  for (const index in objArray[0]) {
+    str += ','
+    str += index;
+  }
+
+  return str.slice(1);
+}
+
+export function convertToCsv(objArray) {
+  let str = '';
+
+  for (let i = 0; i < objArray.length; i++) {
+    let line = '';
+    for (const index in objArray[i]) {
+      if (line != '') line += ','
+
+      if (objArray[i][index] != undefined) {
+        line += objArray[i][index];
+      }
+    }
+
+    str += line + '\r\n';
+  }
+
+  return str;
+}
+
 export async function getEmployees(sheet, lowerBound, upperBound) {
   const id = await getId();
   const employee = [];
@@ -84,14 +114,14 @@ export async function getEmployees(sheet, lowerBound, upperBound) {
 }
 
 export async function writeEmployees(employee, phase) {
-  const writePath = path.join(__dirname, `/output-${phase}.json`);
-  await fs.writeFile(writePath, JSON.stringify(employee), function (err) {
+  const writePath = path.join(__dirname, `/output-${phase}.csv`);
+  await fs.writeFile(writePath, `${createCsvFields(employee)}\n${convertToCsv(employee)}`, function (err) {
     if (err) {
       console.log('An error occured while writing JSON Object to File.');
       return console.log(err);
     }
 
-    console.log('JSON file has been saved.');
+    console.log('CSV file has been saved.');
   });
 }
 
