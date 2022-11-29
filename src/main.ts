@@ -2,7 +2,15 @@ import * as excel from 'exceljs';
 import * as path from 'path';
 
 import { Constant } from './constant';
-import { duplicateDependents, duplicateEmployees, getDependents, getEmployees, writeDependents, writeEmployees, writeId } from './helper';
+import {
+  duplicateDependents,
+  duplicateEmployees,
+  getDependents,
+  getEmployees,
+  writeDependents,
+  writeEmployees,
+  writeId
+} from './helper';
 
 async function processExcel(filename) {
   let workBook = new excel.Workbook();
@@ -35,7 +43,8 @@ async function processData(phase, sheet, lowerBound, upperBound) {
   const employees = await getEmployees(sheet, lowerBound, upperBound);
   const dependents = await getDependents(sheet, lowerBound, upperBound);
   await writeEmployees(employees, phase);
-  await writeDependents(dependents, phase);
+
+  // await writeDependents(dependents, phase);
 }
 
 async function processAndDuplicateData(phase, sheet, lowerBound, upperBound, multiplier) {
