@@ -8,6 +8,7 @@ import {
   getDependents,
   getEmployees,
   writeDependents,
+  writeDependentsCsv,
   writeEmployees,
   writeId
 } from './helper';
@@ -44,7 +45,7 @@ async function processData(phase, sheet, lowerBound, upperBound) {
   const dependents = await getDependents(sheet, lowerBound, upperBound);
   await writeEmployees(employees, phase);
 
-  // await writeDependents(dependents, phase);
+  await writeDependentsCsv(dependents, phase);
 }
 
 async function processAndDuplicateData(phase, sheet, lowerBound, upperBound, multiplier) {

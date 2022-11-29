@@ -243,6 +243,21 @@ export async function writeDependents(dependents, phase) {
   }
 }
 
+export async function writeDependentsCsv(dependents, phase) {
+  const format = 'employee-dependents-fields';
+  const writePath = path.join(__dirname, `/output-${phase}-${format}.csv`);
+
+  fs.readFile(path.join(__dirname, `/${format}.csv`),  'utf8',async function (err, data) {
+    await fs.writeFile(writePath, `${data}${getCsvFromFormat(data, dependents)}`, function (err) {
+      if (err) {
+        console.log('An error occurred while writing CSV Object to File.');
+        return console.log(err);
+      }
+      console.log('CSV file has been saved.');
+    });
+  });
+}
+
 async function getId() {
   const config = require('./config');
   return config['id'];
