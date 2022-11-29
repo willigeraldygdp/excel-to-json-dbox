@@ -134,20 +134,21 @@ export async function getEmployees(sheet, lowerBound, upperBound) {
 }
 
 export async function writeEmployees(employee, phase) {
-  const format = 'employee-data-fields';
-  const writePath = path.join(__dirname, `/output-${phase}-${format}.csv`);
+  const formats = ['employee-data-fields', 'employment-details-fields'];
 
-  fs.readFile(path.join(__dirname, `/${format}.csv`),  'utf8',async function (err, data) {
-    await fs.writeFile(writePath, `${data}${getCsvFromFormat(data, employee)}`, function (err) {
-      if (err) {
-        console.log('An error occured while writing JSON Object to File.');
-        return console.log(err);
-      }
+  formats.forEach((format) => {
+    const writePath = path.join(__dirname, `/output-${phase}-${format}.csv`);
 
-      console.log('CSV file has been saved.');
+    fs.readFile(path.join(__dirname, `/${format}.csv`),  'utf8',async function (err, data) {
+      await fs.writeFile(writePath, `${data}${getCsvFromFormat(data, employee)}`, function (err) {
+        if (err) {
+          console.log('An error occurred while writing CSV Object to File.');
+          return console.log(err);
+        }
+        console.log('CSV file has been saved.');
+      });
     });
   });
-
 }
 
 export async function duplicateEmployees(employees, multiplier) {
