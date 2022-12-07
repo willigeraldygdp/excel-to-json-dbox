@@ -3,6 +3,9 @@
   "version": "1.0.0",
   "main": "main.ts",
   "license": "MIT",
+  "scripts": {
+    "start": "node --experimental-specifier-resolution=node --loader ts-node/esm src/main.ts"
+  },
   "dependencies": {
     "exceljs": "~4.3.0",
     "ts-node": "~10.9.1",
